@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/</loc>
+  </url>
+  <url>
+    <loc>https://example.com/about</loc>
+  </url>
+  <url>
+    <loc>https://example.com/projects</loc>
+  </url>
+  <url>
+    <loc>https://example.com/blog</loc>
+  </url>
+  <url>
+    <loc>https://example.com/blog/theory-what-metrics-can-and-cannot-say</loc>
+    <lastmod>2025-12-24</lastmod>
+  </url>
+  <url>
+    <loc>https://example.com/tags/match-analysis</loc>
+  </url>
+  <url>
+    <loc>https://example.com/tags/methodology</loc>
+  </url>
+  <url>
+    <loc>https://example.com/tags/recruitment</loc>
+  </url>
+  <url>
+    <loc>https://example.com/tags/theory</loc>
+  </url>
+</urlset>

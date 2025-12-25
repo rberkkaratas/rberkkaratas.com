@@ -1,0 +1,46 @@
+[
+  {
+    "id": "league-season-explorer",
+    "name": "League Season Explorer (FBref EDA)",
+    "summary": "Build a clean, reusable league-season dataset and run exploratory analysis for a single league/season using FBref via soccerdata, with a simple raw→processed data layout and reusable plotting utilities.",
+    "stack": ["Python", "Pandas", "soccerdata", "FBref"],
+    "links": {
+      "repo": "https://github.com/rberkkaratas/League-Season-Explorer"
+    },
+    "featured": false,
+    "dates": { "start": "2025" }
+  },
+  {
+    "id": "player-radar-profile-builder",
+    "name": "Player Radar & Profile Builder",
+    "summary": "Generate radar/spider charts plus an auto-written scouting profile by comparing a player’s per-90 metrics to position peers across seasons, using percentile/z-score standardization and transparent filters (minutes, position, seasons).",
+    "stack": ["Python", "Pandas", "statsbombpy", "soccerdata"],
+    "links": {
+      "repo": "https://github.com/rberkkaratas/Player-Radar-Profile-Builder"
+    },
+    "featured": true,
+    "dates": { "start": "2025" }
+  },
+  {
+    "id": "web-scraping-data-parsing-pipeline",
+    "name": "Transfermarkt Scraping & Parsing Pipeline",
+    "summary": "A modular web-scraping → parsing → cleaning pipeline for Transfermarkt that saves analysis-ready tables in a raw/interim/processed folder structure, designed so new tables are added via plug-in acquirers + parsers.",
+    "stack": ["Python", "Pandas", "Web Scraping", "Parquet/CSV"],
+    "links": {
+      "repo": "https://github.com/rberkkaratas/Web-Scraping-Data-Parsing-Pipeline"
+    },
+    "featured": false,
+    "dates": { "start": "2025" }
+  },
+  {
+    "id": "shot-maps-xg-single-match",
+    "name": "Shot Maps & xG Visualisation (Single Match)",
+    "summary": "Use StatsBomb open event data to produce shot maps and basic xG visuals for a single match: pitch shot plot, goals vs non-goals, xG-based encoding, and xG-over-time timelines.",
+    "stack": ["Python", "statsbombpy", "mplsoccer", "Matplotlib"],
+    "links": {
+      "repo": "https://github.com/rberkkaratas/Shot-Maps-xG-Visualisation-for-a-Single-Match"
+    },
+    "featured": true,
+    "dates": { "start": "2025" }
+  }
+]
