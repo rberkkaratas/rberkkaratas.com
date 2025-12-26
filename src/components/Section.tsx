@@ -18,7 +18,7 @@ export function Section({
       <Container>
         {(eyebrow || title) && (
           <header className="mb-6">
-            {eyebrow && <p className="text-sm text-zinc-600 dark:text-zinc-400">{eyebrow}</p>}
+            {eyebrow && <p className="text-sm text-zinc-400">{eyebrow}</p>}
             {title && <h2 className="mt-1 text-xl font-semibold tracking-tight">{title}</h2>}
           </header>
         )}

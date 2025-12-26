@@ -27,9 +27,9 @@ export default function BlogPost() {
     <Section>
       <article className="mx-auto max-w-3xl">
         <header>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">{prettyDate(post.frontmatter.date)}</p>
+          <p className="text-xs text-zinc-400">{prettyDate(post.frontmatter.date)}</p>
           <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{post.frontmatter.title}</h1>
-          <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{post.frontmatter.summary}</p>
+          <p className="mt-3 text-sm text-zinc-400">{post.frontmatter.summary}</p>
 
           <div className="mt-4 flex flex-wrap gap-2">
             {post.tagSlugs.map((t) => (
@@ -39,12 +39,12 @@ export default function BlogPost() {
         </header>
 
         {post.frontmatter.cover && (
-          <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60">
+          <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-800/60">
             <img src={post.frontmatter.cover} alt="" className="h-auto w-full" loading="lazy" />
           </div>
         )}
 
-        <GlassCard className="prose prose-zinc mt-6 max-w-none dark:prose-invert">
+        <GlassCard className="prose prose-zinc mt-6 max-w-none prose-invert">
           <div dangerouslySetInnerHTML={{ __html: post.html }} />
         </GlassCard>
 
@@ -57,7 +57,7 @@ export default function BlogPost() {
                   <Link className="font-medium underline-offset-4 hover:underline" to={`/blog/${p.slug}`}>
                     {p.frontmatter.title}
                   </Link>
-                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{p.frontmatter.summary}</p>
+                  <p className="mt-1 text-sm text-zinc-400">{p.frontmatter.summary}</p>
                 </GlassCard>
               ))}
             </div>

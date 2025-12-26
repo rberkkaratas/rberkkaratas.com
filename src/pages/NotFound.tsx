@@ -7,7 +7,7 @@ export default function NotFound() {
   useRouteMeta(metaForStatic("/404"));
   return (
     <Section title="Page not found" eyebrow="404">
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">The page you requested does not exist.</p>
+      <p className="text-sm text-zinc-400">The page you requested does not exist.</p>
       <div className="mt-6">
         <Button to="/">Go home</Button>
       </div>
@@ -18,7 +18,7 @@ export default function NotFound() {
 export function NotFoundInline() {
   return (
     <Section title="Page not found" eyebrow="404">
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">The page you requested does not exist.</p>
+      <p className="text-sm text-zinc-400">The page you requested does not exist.</p>
       <div className="mt-6">
         <Button to="/">Go home</Button>
       </div>

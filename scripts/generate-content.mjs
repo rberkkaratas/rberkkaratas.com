@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { marked } from "marked";
+import { remark } from "remark";
+import remarkHtml from "remark-html";
+import remarkGfm from "remark-gfm";
 
 const ROOT = process.cwd();
 const POSTS_DIR = path.join(ROOT, "content", "posts");
@@ -10,6 +12,11 @@ const PUBLIC_DIR = path.join(ROOT, "public");
 
 const SITE_URL = process.env.SITE_URL || "https://example.com";
 const INCLUDE_DRAFTS = process.env.INCLUDE_DRAFTS === "1";
+
+async function mdToHtml(markdown) {
+  const result = await remark().use(remarkGfm).use(remarkHtml).process(markdown);
+  return String(result);
+}
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -27,11 +34,15 @@ function escapeXml(s) {
   return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
 
-function readPosts() {
+async function readPosts() {
+  if (!fs.existsSync(POSTS_DIR)) {
+    return [];
+  }
+
   const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith(".md"));
 
-  const posts = files
-    .map((file) => {
+  const maybePosts = await Promise.all(
+    files.map(async (file) => {
       const full = path.join(POSTS_DIR, file);
       const raw = fs.readFileSync(full, "utf8");
       const parsed = matter(raw);
@@ -54,7 +65,9 @@ function readPosts() {
       const slug = toSlug(guessed);
 
       const tagSlugs = tags.map(toSlug);
-      const html = marked.parse(parsed.content);
+
+      // ✅ Convert Markdown -> HTML (instead of rendering raw markdown)
+      const html = await mdToHtml(parsed.content);
 
       return {
         slug,
@@ -63,7 +76,9 @@ function readPosts() {
         tagSlugs
       };
     })
-    .filter(Boolean);
+  );
+
+  const posts = maybePosts.filter(Boolean);
 
   posts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 
@@ -75,7 +90,7 @@ function readPosts() {
         return { slug: x.slug, overlap, date: new Date(x.frontmatter.date).getTime() };
       })
       .filter((x) => x.overlap > 0)
-      .sort((a, b) => (b.overlap - a.overlap) || (b.date - a.date))
+      .sort((a, b) => b.overlap - a.overlap || b.date - a.date)
       .slice(0, 3)
       .map((x) => x.slug);
 
@@ -110,10 +125,14 @@ export const postsBySlug: Record<string, Post> = Object.fromEntries(posts.map((p
     "utf8"
   );
 
+  // ✅ Ensure tags is typed even when empty (prevents never[])
   fs.writeFileSync(
     path.join(OUT_DIR, "tags.ts"),
-    `export const tags = ${JSON.stringify(tags, null, 2)};
-export const tagsBySlug: Record<string, { slug: string; label: string; count: number }> = Object.fromEntries(
+    `export type Tag = { slug: string; label: string; count: number };
+
+export const tags: Tag[] = ${JSON.stringify(tags, null, 2)};
+
+export const tagsBySlug: Record<string, Tag> = Object.fromEntries(
   tags.map((t) => [t.slug, t])
 );
 `,
@@ -130,7 +149,11 @@ export const tagsBySlug: Record<string, { slug: string; label: string; count: nu
     "/404"
   ];
 
-  fs.writeFileSync(path.join(OUT_DIR, "prerenderRoutes.ts"), `export const ALL_ROUTES = ${JSON.stringify(routes, null, 2)};\n`, "utf8");
+  fs.writeFileSync(
+    path.join(OUT_DIR, "prerenderRoutes.ts"),
+    `export const ALL_ROUTES = ${JSON.stringify(routes, null, 2)};\n`,
+    "utf8"
+  );
 
   return routes;
 }
@@ -151,10 +174,9 @@ Sitemap: ${SITE_URL.replace(/\/$/, "")}/sitemap.xml
   const urlEntries = routes
     .filter((r) => r !== "/404")
     .map((r) => {
-      const lastmod =
-        r.startsWith("/blog/")
-          ? posts.find((p) => `/blog/${p.slug}` === r)?.frontmatter.date
-          : undefined;
+      const lastmod = r.startsWith("/blog/")
+        ? posts.find((p) => `/blog/${p.slug}` === r)?.frontmatter.date
+        : undefined;
 
       return `  <url>
     <loc>${escapeXml(SITE_URL.replace(/\/$/, "") + r)}</loc>${lastmod ? `\n    <lastmod>${escapeXml(lastmod)}</lastmod>` : ""}
@@ -201,8 +223,8 @@ ${urlEntries}
   );
 }
 
-(function main() {
-  const posts = readPosts();
+(async function main() {
+  const posts = await readPosts();
   const tags = buildTags(posts);
   const routes = writeGeneratedTS(posts, tags);
   writeSeoFiles(posts, routes);

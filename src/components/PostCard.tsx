@@ -9,7 +9,7 @@ export function PostCard({ post }: { post: Post }) {
   return (
     <GlassCard className="group">
       <div className="flex items-baseline justify-between gap-4">
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">{prettyDate(post.frontmatter.date)}</p>
+        <p className="text-xs text-zinc-400">{prettyDate(post.frontmatter.date)}</p>
       </div>
 
       <h3 className="mt-2 text-base font-semibold tracking-tight">
@@ -21,7 +21,7 @@ export function PostCard({ post }: { post: Post }) {
         </Link>
       </h3>
 
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{post.frontmatter.summary}</p>
+      <p className="mt-2 text-sm text-zinc-400">{post.frontmatter.summary}</p>
 
       <div className="mt-4 flex flex-wrap gap-2">
         {post.tagSlugs.map((slug) => (
@@ -29,7 +29,7 @@ export function PostCard({ post }: { post: Post }) {
         ))}
       </div>
 
-      <div className="pointer-events-none mt-4 h-px bg-zinc-200/60 opacity-0 transition group-hover:opacity-100 dark:bg-zinc-800/60 motion-reduce:transition-none" />
+      <div className="pointer-events-none mt-4 h-px opacity-0 transition group-hover:opacity-100bg-zinc-800/60 motion-reduce:transition-none" />
     </GlassCard>
   );
 }

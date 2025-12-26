@@ -11,10 +11,8 @@ export default function BlogIndex() {
 
   return (
     <>
-      <Section title="Blog" eyebrow="Writing">
-        <p className="max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
-          Markdown posts with tags, related posts, RSS, and pre-rendering for SEO.
-        </p>
+      <Section title="Blog" eyebrow="All posts">
+        <PostList posts={posts} />
       </Section>
 
       <Section title="Tags" eyebrow="Browse">
@@ -25,9 +23,7 @@ export default function BlogIndex() {
         </div>
       </Section>
 
-      <Section title="All posts" eyebrow="Archive">
-        <PostList posts={posts} />
-      </Section>
+
     </>
   );
 }
